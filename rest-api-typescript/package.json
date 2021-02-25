@@ -1,0 +1,24 @@
+{
+  "name": "rest-api-typescript",
+  "version": "1.0.0",
+  "description": "This is typescript-express quick start",
+  "main": "src/server.js",
+  "scripts": {
+    "build": "rm -rf build/ && prettier --write src/ && tsc"
+  },
+  "author": "Suraj Karki",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.11.18"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.11",
+    "@types/mongoose": "^5.10.3"
+  }
+}

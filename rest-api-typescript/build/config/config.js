@@ -15,14 +15,14 @@ var MONGO_OPTIONS = {
     retryWrites: false
 };
 var MONGO_USERNAME = process.env.MONGO_USERNAME;
-var MONGO_PASSWORD = process.env.MONGO_USERNAME;
-var MONGO_HOST = process.env.MONGO_URL;
+var MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+var MONGO_HOST = process.env.MONGO_HOST;
 var MONGO = {
     host: MONGO_HOST,
     password: MONGO_PASSWORD,
     username: MONGO_USERNAME,
     options: MONGO_OPTIONS,
-    url: "mongodb://" + MONGO_USERNAME + ":" + MONGO_PASSWORD + "@" + MONGO_HOST
+    url: "mongodb+srv://" + MONGO_USERNAME + ":" + MONGO_PASSWORD + "@" + MONGO_HOST
 };
 var SERVER_HOSTNAME = process.env.SERVER_HOSTNAME || 'localhost';
 var SERVER_PORT = process.env.SERVER_PORT || 1337;

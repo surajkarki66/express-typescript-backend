@@ -1,14 +1,17 @@
 import http from 'http';
+import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import express from 'express';
+
 import logging from './config/logging';
 import config from './config/config';
-import mongoose from 'mongoose';
+import bookRoutes from './routes/book';
 
 const NAMESPACE = 'Server';
 const router = express();
 
 /** Connect to Mongo */
+console.log(config.mongo.url);
 mongoose
     .connect(config.mongo.url, config.mongo.options)
     .then((result) => {
@@ -49,6 +52,7 @@ router.use((req, res, next) => {
 });
 
 /** Routes go here */
+router.use('/api/books', bookRoutes);
 
 /** Error handling */
 router.use((req, res, next) => {

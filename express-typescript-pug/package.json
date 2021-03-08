@@ -2,7 +2,7 @@
   "name": "express-typescript-pug",
   "version": "1.0.0",
   "description": "This is a template.",
-  "main": "src/app.js",
+  "main": "src/server.js",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/server.ts",
     "start": "ts-node dist/server.js",

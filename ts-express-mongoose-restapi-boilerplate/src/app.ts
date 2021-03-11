@@ -3,7 +3,7 @@ import express from 'express';
 import { Application } from 'express';
 
 import logging from './config/logging';
-import bookRoutes from './routes/book.route';
+import userRoutes from './routes/users.route';
 import apiErrorHandler from './errors/apiErrorHandler';
 
 class App {
@@ -29,7 +29,7 @@ class App {
         this.app.use('/uploads', express.static(path.join(__dirname + '/../public/uploads')));
 
         // Normal Routes
-        this.app.use('/api/books', bookRoutes);
+        this.app.use('/api/users', userRoutes);
 
         // Error Handler Route
         this.app.use(apiErrorHandler);

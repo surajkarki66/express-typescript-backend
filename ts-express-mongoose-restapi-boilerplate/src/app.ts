@@ -4,6 +4,7 @@ import { Application } from 'express';
 
 import logging from './config/logging';
 import userRoutes from './routes/users.route';
+import postRoutes from './routes/posts.route';
 import apiErrorHandler from './errors/apiErrorHandler';
 
 class App {
@@ -30,6 +31,7 @@ class App {
 
         // Normal Routes
         this.app.use('/api/users', userRoutes);
+        this.app.use('/api/posts', postRoutes);
 
         // Error Handler Route
         this.app.use(apiErrorHandler);

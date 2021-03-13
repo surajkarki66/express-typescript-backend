@@ -17,8 +17,21 @@ const UserSchema: Schema = new Schema({
 
 // Static methods
 UserSchema.statics.findByEmail = async function (email) {
-    return await this.find({ email: email });
+    return await this.findOne({ email: email });
 };
+
+UserSchema.statics.getAllUsers = async function () {
+    return await this.find({});
+};
+
+UserSchema.statics.findByFirstName = async function (firstName: string) {
+    return await this.find({ firstName: new RegExp(firstName, 'i') });
+};
+
+// Virtual
+UserSchema.virtual('fullName').get(function (this: { firstName: string; lastName: string }) {
+    return this.firstName + ' ' + this.lastName;
+});
 
 const UserModel: IUserModel = mongoose.model<IUserDocument, IUserModel>('User', UserSchema);
 

@@ -1,12 +1,20 @@
+import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 import { IPostDocument } from '../interfaces/post';
 import Post from '../models/post';
 import writeServerResponse from '../helpers/response';
 import ApiError from '../errors/ApiError';
+import errorFormatter from '../helpers/errorFormatter';
 
 const createPost = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()) {
+            const msg = errors.array();
+            next(ApiError.badRequest(msg[0]));
+            return;
+        }
         const data: IPostDocument = req.body;
 
         const post = new Post(data);

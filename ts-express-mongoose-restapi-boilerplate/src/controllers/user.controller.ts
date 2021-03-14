@@ -1,12 +1,21 @@
+import { validationResult } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 import { IUserDocument } from '../interfaces/user';
 import User from '../models/user';
 import writeServerResponse from '../helpers/response';
 import ApiError from '../errors/ApiError';
+import errorFormatter from '../helpers/errorFormatter';
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()) {
+            const msg = errors.array();
+            next(ApiError.badRequest(msg[0]));
+            return;
+        }
+
         const { email, firstName, lastName, gender, address, preferences }: IUserDocument = req.body;
         const user = new User({ email, firstName, lastName, gender, address, preferences });
         const isEmail = await User.findByEmail(email);
@@ -47,7 +56,15 @@ const users = async (req: Request, res: Response, next: NextFunction) => {
 
 const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const errors = validationResult(req).formatWith(errorFormatter);
+        if (!errors.isEmpty()) {
+            const msg = errors.array();
+            next(ApiError.badRequest(msg[0]));
+            return;
+        }
+
         const { firstName }: any = req.query;
+
         const users = await User.findByFirstName(firstName);
 
         const serverResponse = {

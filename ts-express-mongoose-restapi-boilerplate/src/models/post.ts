@@ -3,7 +3,7 @@ import mongoose, { Schema } from 'mongoose';
 import { IPostDocument, IPostModel } from '../interfaces/post';
 
 const CommentSchema: Schema = new Schema({
-    text: { type: String, required: true },
+    text: { type: String },
     postedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 });
 

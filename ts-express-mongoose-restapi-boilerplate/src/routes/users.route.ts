@@ -1,11 +1,12 @@
 import { Router } from 'express';
 
 import UserController from '../controllers/user.controller';
+import validateUser from '../middlewares/userValidation';
 
 const router = Router();
 
-router.route('/create').post(UserController.createUser);
+router.post('/create', validateUser('createUser'), UserController.createUser);
 router.route('/').get(UserController.users);
-router.route('/search').get(UserController.searchUsers);
+router.get('/search', validateUser('searchUser'), UserController.searchUsers);
 
 export default router;

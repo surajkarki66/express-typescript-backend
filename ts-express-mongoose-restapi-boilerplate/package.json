@@ -5,8 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon --watch './**/*.ts' --exec 'ts-node' src/server.ts",
-    "start": "node build/server.js",
-    "build": "rm -rf build/ && prettier --write src/ && tsc"
+    "start": "node dist/server.js",
+    "build": "rm -rf dist/ && prettier --write src/ && tsc"
   },
   "author": "Suraj Karki",
   "license": "MIT",

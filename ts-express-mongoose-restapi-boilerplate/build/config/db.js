@@ -19,7 +19,7 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield mongoose_1.default.connect(config_1.default.mongo.url, config_1.default.mongo.options);
         if (result) {
-            logging_1.default.info('Server', 'MongoDB Connected');
+            logging_1.default.info('Server', `MongoDB Connected: ${result.connection.host}`);
         }
     }
     catch (error) {

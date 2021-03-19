@@ -1,7 +1,7 @@
 import { Response } from 'express';
 
 interface Idata {
-    result: object;
+    result: any;
     statusCode: number;
     contentType: string;
 }

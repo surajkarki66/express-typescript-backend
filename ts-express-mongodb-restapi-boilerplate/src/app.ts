@@ -3,6 +3,8 @@ import express from 'express';
 import { Application } from 'express';
 
 import logger from './utils/logger';
+import apiErrorHandler from './errors/api-error-handler';
+import userRoutes from './routes/user.route';
 
 class App {
     private app: Application;
@@ -27,8 +29,10 @@ class App {
         this.app.use('/uploads', express.static(path.join(__dirname + '/../public/uploads')));
 
         // Normal Routes
+        this.app.use('/api/users', userRoutes);
 
         // Error Handler Route
+        this.app.use(apiErrorHandler);
     }
 
     public listen(): void {

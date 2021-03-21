@@ -6,12 +6,14 @@ import IUser from '../interfaces/user';
 
 class UsersDAO {
     private static users: Collection<any>;
+    private static DEFAULT_SORT = { username: -1 };
+
     public static async injectDB(conn: MongoClient): Promise<void> {
         if (UsersDAO.users) {
             return;
         }
         try {
-            UsersDAO.users = await conn.db(config.db).collection('users');
+            UsersDAO.users = conn.db(config.db).collection('users');
             logger.info(`Connected to users collection of ${config.db} database.`, 'UsersDAO.injectDB()');
         } catch (e) {
             logger.error(`Error while injecting DB: ${e.message}`, 'UsersDAO.injectDB()');
@@ -49,6 +51,41 @@ class UsersDAO {
                 };
             }
             logger.error(`Error occurred while adding new user, ${e}.`);
+            throw e;
+        }
+    }
+    public static async getUsers({ page = 0, usersPerPage = 10, filter = {} } = {}): Promise<{
+        success: boolean;
+        data: any[];
+        totalNumUsers: number;
+        statusCode: number;
+    }> {
+        const sort = UsersDAO.DEFAULT_SORT;
+        const projection = { password: 0 };
+        let cursor;
+        try {
+            cursor = UsersDAO.users.find(filter).project(projection).sort(sort);
+        } catch (e) {
+            logger.error(`Unable to issue find command, ${e.message}`);
+            return {
+                success: false,
+                data: [],
+                totalNumUsers: 0,
+                statusCode: 404
+            };
+        }
+        const displayCursor = cursor.skip(page * usersPerPage).limit(usersPerPage);
+        try {
+            const documents = await displayCursor.toArray();
+            const totalNumUsers = page === 0 ? await UsersDAO.users.countDocuments({}) : 0;
+            return {
+                success: true,
+                data: documents,
+                totalNumUsers,
+                statusCode: documents.length > 0 ? 200 : 404
+            };
+        } catch (e) {
+            logger.error(`Unable to convert cursor to array or problem counting documents, ${e.message}`);
             throw e;
         }
     }

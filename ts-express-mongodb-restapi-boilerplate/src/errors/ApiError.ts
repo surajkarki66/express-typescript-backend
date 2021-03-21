@@ -23,7 +23,7 @@ class ApiError {
     static unprocessable(msg: string): ApiError {
         return new ApiError(422, msg);
     }
-    static notfound(msg: string): ApiError {
+    static notFound(msg: string): ApiError {
         return new ApiError(404, msg);
     }
 }

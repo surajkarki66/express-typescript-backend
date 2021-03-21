@@ -32,4 +32,38 @@ const createUser = async (req: Request, res: Response, next: NextFunction): Prom
     }
 };
 
-export default { createUser };
+const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined> => {
+    try {
+        const query = req.query;
+        const page = Number(query.page);
+        const usersPerPage = Number(query.usersPerPage);
+        const { success, data, statusCode, totalNumUsers } = await UsersDAO.getUsers({
+            page,
+            usersPerPage
+        });
+        console.log(data);
+        if (success) {
+            const responseData = {
+                status: 'success',
+                data: data,
+                page: page,
+                entries_per_page: usersPerPage,
+                totalResults: totalNumUsers,
+                filters: {}
+            };
+            const serverResponse = {
+                result: responseData,
+                statusCode: statusCode,
+                contentType: 'application/json'
+            };
+            return writeServerResponse(res, serverResponse);
+        }
+        next(ApiError.notFound('Not found'));
+        return;
+    } catch (e) {
+        next(ApiError.internal(`Something went wrong: ${e.message}`));
+        return;
+    }
+};
+
+export default { createUser, getUsers };

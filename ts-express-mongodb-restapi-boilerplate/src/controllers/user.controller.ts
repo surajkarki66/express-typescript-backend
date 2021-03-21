@@ -41,7 +41,7 @@ const getUsers = async (req: Request, res: Response, next: NextFunction): Promis
             page,
             usersPerPage
         });
-        console.log(data);
+
         if (success) {
             const responseData = {
                 status: 'success',

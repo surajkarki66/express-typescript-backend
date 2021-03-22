@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 import { IUserDocument } from '../interfaces/user';
 import User from '../models/user';
@@ -7,7 +7,7 @@ import writeServerResponse from '../helpers/response';
 import ApiError from '../errors/ApiError';
 import errorFormatter from '../helpers/errorFormatter';
 
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
+const createUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()) {
@@ -39,7 +39,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const users = async (req: Request, res: Response, next: NextFunction) => {
+const users: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await User.getAllUsers();
         const serverResponse = {
@@ -54,7 +54,7 @@ const users = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const searchUsers = async (req: Request, res: Response, next: NextFunction) => {
+const searchUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()) {

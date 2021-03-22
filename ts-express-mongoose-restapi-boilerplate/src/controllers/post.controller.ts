@@ -1,5 +1,5 @@
 import { validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 import { IPostDocument } from '../interfaces/post';
 import Post from '../models/post';
@@ -7,7 +7,7 @@ import writeServerResponse from '../helpers/response';
 import ApiError from '../errors/ApiError';
 import errorFormatter from '../helpers/errorFormatter';
 
-const createPost = async (req: Request, res: Response, next: NextFunction) => {
+const createPost: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const errors = validationResult(req).formatWith(errorFormatter);
         if (!errors.isEmpty()) {
@@ -33,7 +33,7 @@ const createPost = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const posts = async (req: Request, res: Response, next: NextFunction) => {
+const posts: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const posts = await Post.getAllPosts();
         const serverResponse = {

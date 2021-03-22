@@ -1,11 +1,11 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, RequestHandler } from 'express';
 
 import ApiError from '../errors/ApiError';
 import IUser from '../interfaces/user';
 import UsersDAO from '../dao/usersDAO';
 import writeServerResponse from '../helpers/response';
 
-const createUser = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined> => {
+const createUser: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userInfo: IUser = req.body;
         const { email } = userInfo;
@@ -32,7 +32,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction): Prom
     }
 };
 
-const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<Response<any, Record<string, any>> | undefined> => {
+const getUsers: RequestHandler = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const query = req.query;
         const page = Number(query.page);
